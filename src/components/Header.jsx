@@ -3,17 +3,20 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderSection = styled.section`
-  width: 90%;
+  width: 100%;
   max-width: 1280px;
   height: auto;
   background-color: darkgray;
   color: white;
-  padding: 1rem;
+  padding: 1rem 0px;
   display: flex;
   flex-direction: row;
-  margin: 0 auto;
+  margin: 1rem auto 0 0;
+  border: none;
+  border-radius: 15px 15px 0 0;
 
   span {
+    margin: 0px 1rem;
     &:hover {
       font-weight: bold;
     }
@@ -31,9 +34,9 @@ const Header = () => {
   return (
     <HeaderSection>
       <HeaderWrap>
-        <div onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+        <span onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
           LOGO
-        </div>
+        </span>
         <div>
           <span
             onClick={() => navigate("/signup")}
@@ -41,7 +44,6 @@ const Header = () => {
           >
             회원가입
           </span>
-          <span> | </span>
           <span
             onClick={() => navigate("/login")}
             style={{ cursor: "pointer" }}
