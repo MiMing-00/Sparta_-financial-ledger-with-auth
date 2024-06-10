@@ -12,6 +12,7 @@ const Container = styled.main`
   flex-direction: column;
   gap: 20px;
   margin: 0 auto;
+  padding: 2rem;
 `;
 
 export const Section = styled.section`

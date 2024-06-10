@@ -126,3 +126,11 @@ table {
 body {
   background-color: #2ec4b6;
 }
+
+:root {
+  --main-color: #2ec4b6;
+}
+
+button {
+  cursor: pointer;
+}
