@@ -7,6 +7,7 @@ import "./App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Layout from "./Layout";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (

@@ -34,21 +34,15 @@ const Header = () => {
   return (
     <HeaderSection>
       <HeaderWrap>
-        <span onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+        <span onClick={() => navigate("/")} className="logo">
           LOGO
         </span>
         <div>
-          <span
-            onClick={() => navigate("/signup")}
-            style={{ cursor: "pointer" }}
-          >
-            회원가입
+          <span onClick={() => navigate("/signup")} className="logo">
+            SignUp
           </span>
-          <span
-            onClick={() => navigate("/login")}
-            style={{ cursor: "pointer" }}
-          >
-            로그인
+          <span onClick={() => navigate("/login")} className="logo">
+            Login
           </span>
         </div>
       </HeaderWrap>

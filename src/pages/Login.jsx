@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const Container = styled.div`
+  padding: 2rem;
+`;
+
+export const LogincSection = styled.section`
   max-width: 300px;
   margin: 2rem auto;
   padding: 2rem;
@@ -13,7 +17,7 @@ export const Container = styled.div`
 export const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px 15px;
+  margin: 15px;
 
   label {
     margin: 0.5rem 2px;
@@ -62,32 +66,39 @@ const Login = () => {
 
   return (
     <Container>
-      <LoginDiv>
-        <span>처음 방문하셨나요?</span>
-        <span
-          onClick={() => navigate("/signup")}
-          style={{ fontWeight: 800, cursor: "pointer" }}
-        >
-          회원가입
-        </span>
-      </LoginDiv>
-      <h3>로그인</h3>
-      <form>
-        <InputGroup>
-          <label htmlFor="loginId">아이디</label>
-          <input type="text" id="loginId" name="loginId" placeholder="아이디" />
-        </InputGroup>
-        <InputGroup>
-          <label htmlFor="loginPW">비밀번호</label>
-          <input
-            type="password"
-            id="loginPW"
-            name="loginPW"
-            placeholder="비밀번호"
-          />
-        </InputGroup>
-        <Button type="submit">로그인</Button>
-      </form>
+      <LogincSection>
+        <LoginDiv>
+          <span>처음 방문하셨나요?</span>
+          <span
+            onClick={() => navigate("/signup")}
+            style={{ fontWeight: 800, cursor: "pointer" }}
+          >
+            회원가입
+          </span>
+        </LoginDiv>
+        <h3>로그인</h3>
+        <form>
+          <InputGroup>
+            <label htmlFor="loginId">아이디</label>
+            <input
+              type="text"
+              id="loginId"
+              name="loginId"
+              placeholder="아이디"
+            />
+          </InputGroup>
+          <InputGroup>
+            <label htmlFor="loginPW">비밀번호</label>
+            <input
+              type="password"
+              id="loginPW"
+              name="loginPW"
+              placeholder="비밀번호"
+            />
+          </InputGroup>
+          <Button type="submit">로그인</Button>
+        </form>
+      </LogincSection>
     </Container>
   );
 };
