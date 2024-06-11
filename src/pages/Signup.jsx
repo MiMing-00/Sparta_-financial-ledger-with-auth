@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
@@ -9,12 +9,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../styles/SignUpCss.css";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-  const onSubmitSignUp = (event) => {
+  const onSubmitSignUp = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -39,16 +40,25 @@ const Signup = () => {
       return;
     }
 
-    event.target.reset();
-    setPasswordsMatch(true);
-    Swal.fire({
-      icon: "success",
-      title: "회원가입이 완료되었습니다.",
-      text: `${signUpNickname}님 환영합니다.`,
-    });
+    //서버에 데이터 저장
+    try {
+      const { data } = await axios.post("http://localhost:4000/users", {
+        user_id: signUpId,
+        password: signUpPW,
+        nickname: signUpNickname,
+      });
+      console.log(data);
+      event.target.reset();
+      setPasswordsMatch(true);
+      Swal.fire({
+        icon: "success",
+        title: "회원가입이 완료되었습니다.",
+        text: `${signUpNickname}님 환영합니다.`,
+      });
+    } catch (error) {
+      console.log("Error =>", error);
+    }
   };
-
-  //비밀번호 확인
 
   return (
     <Container>
