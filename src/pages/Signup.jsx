@@ -47,7 +47,6 @@ const Signup = () => {
         password: signUpPW,
         nickname: signUpNickname,
       });
-      console.log(data);
       event.target.reset();
       setPasswordsMatch(true);
       Swal.fire({

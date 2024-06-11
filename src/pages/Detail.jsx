@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { editExpense, deleteExpense } from "../redux/slices/expensesSlice";
+import axios from "axios";
 
 const Container = styled.div`
   max-width: 800px;
@@ -39,7 +40,7 @@ const ButtonGroup = styled.div`
 
 const Button = styled.button`
   padding: 10px 20px;
-  background-color: ${(props) => (props.danger ? "#ff4d4d" : "#007bff")};
+  background-color: ${(props) => (props.$danger ? "#ff4d4d" : "#007bff")};
   color: white;
   border: none;
   border-radius: 4px;
@@ -47,7 +48,7 @@ const Button = styled.button`
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${(props) => (props.danger ? "#cc0000" : "#0056b3")};
+    background-color: ${(props) => (props.$danger ? "#cc0000" : "#0056b3")};
   }
 `;
 
@@ -72,7 +73,8 @@ export default function Detail() {
   const [amount, setAmount] = useState(selectedExpense.amount);
   const [description, setDescription] = useState(selectedExpense.description);
 
-  const handleEdit = () => {
+  //TODO: curd u
+  const handleEdit = async (id) => {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!datePattern.test(date)) {
       alert("날짜를 YYYY-MM-DD 형식으로 입력해주세요.");
@@ -83,21 +85,38 @@ export default function Detail() {
       return;
     }
 
-    const newExpense = {
-      id: id,
-      date: date,
-      item: item,
-      amount: amount,
-      description: description,
-    };
+    // const newExpense = {
+    //   id: id,
+    //   date: date,
+    //   item: item,
+    //   amount: amount,
+    //   description: description,
+    // };
 
-    dispatch(editExpense(newExpense));
-    navigate("/");
+    try {
+      await axios.patch("http://localhost:4000/expensesData" + id, {
+        date,
+        item,
+        amount,
+        description,
+      });
+      console.log(data);
+      dispatch(editExpense(data));
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleDelete = () => {
-    dispatch(deleteExpense({ id }));
-    navigate("/");
+  //TODO: crud d
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete("http://localhost:4000/expensesData/" + id);
+      dispatch(deleteExpense({ id }));
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -143,11 +162,15 @@ export default function Detail() {
         />
       </InputGroup>
       <ButtonGroup>
-        <Button onClick={handleEdit}>수정</Button>
-        <Button danger="true" onClick={handleDelete}>
+        <Button type="button" onClick={handleEdit}>
+          수정
+        </Button>
+        <Button type="button" $danger="true" onClick={() => handleDelete(id)}>
           삭제
         </Button>
-        <BackButton onClick={() => navigate(-1)}>뒤로 가기</BackButton>
+        <BackButton type="button" onClick={() => navigate(-1)}>
+          뒤로 가기
+        </BackButton>
       </ButtonGroup>
     </Container>
   );
