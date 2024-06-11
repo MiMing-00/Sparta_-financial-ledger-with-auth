@@ -54,7 +54,7 @@ const Signup = () => {
     <Container>
       <LogincSection>
         <LoginDiv>
-          <span>이미 회원이세요?</span>
+          <span>이미 회원입니까?</span>
           <span
             onClick={() => navigate("/login")}
             style={{ fontWeight: 800, cursor: "pointer" }}
