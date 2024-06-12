@@ -4,7 +4,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addExpense } from "../redux/slices/expensesSlice";
-import api from "../axios/api";
+import jsonApi from "../axios/api";
 
 const InputRow = styled.div`
   display: flex;
@@ -80,8 +80,9 @@ export default function CreateExpense({ month }) {
     // };
 
     // TODO: axios post로 crud 중 c id도 같이 해야 함
+    // 이거는 제이슨 서버로 해야 함
     try {
-      const { data } = await api.post("/expensesData", {
+      const { data } = await jsonApi.post("/expensesData", {
         // id 임시 값
         id: uuidv4(),
         month: parseInt(newDate.split("-")[1], 10),

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { editExpense, deleteExpense } from "../redux/slices/expensesSlice";
-import api from "../axios/api";
+import jsonApi from "../axios/api";
 
 const Container = styled.div`
   max-width: 800px;
@@ -94,7 +94,7 @@ export default function Detail() {
     // };
 
     try {
-      await api.patch("/expensesData" + id, {
+      await jsonApi.patch("/expensesData" + id, {
         date,
         item,
         amount,
@@ -111,7 +111,7 @@ export default function Detail() {
   //TODO: crud d
   const handleDelete = async (id) => {
     try {
-      await api.delete("/expensesData/" + id);
+      await jsonApi.delete("/expensesData/" + id);
       dispatch(deleteExpense({ id }));
       navigate("/");
     } catch (error) {

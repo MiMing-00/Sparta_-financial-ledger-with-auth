@@ -1,16 +1,16 @@
 import axios from "axios";
 import React from "react";
 
-const api = axios.create({
+const jsonApi = axios.create({
   baseURL: "http://localhost:4000",
 });
 
-api.interceptors.request.use((config) => {
+jsonApi.interceptors.request.use((config) => {
   console.log("인터셉트 요청 성공");
   return config;
 });
 
-api.interceptors.response.use(
+jsonApi.interceptors.response.use(
   (response) => {
     console.log("응답 받음");
     return response;
@@ -21,4 +21,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api;
+export default jsonApi;

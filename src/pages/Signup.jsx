@@ -9,10 +9,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../styles/SignUpCss.css";
-import api from "../axios/api";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [idCheck, setIdCheck] = useState(true);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const onSubmitSignUp = async (event) => {
@@ -34,26 +35,47 @@ const Signup = () => {
       return;
     }
 
+    //아이디 네 글자 이상 (임시)
+    if (signUpId.length < 4) {
+      setIdCheck(false);
+      return;
+    }
+
     //비밀번호 일치 확인
     if (signUpPW !== signUpCheckPW) {
       setPasswordsMatch(false);
       return;
     }
 
+    event.target.reset();
+    setPasswordsMatch(true);
+    console.log(signUpId, signUpPW);
+
     //서버에 데이터 저장
     try {
-      const { data } = await api.post("/users", {
-        user_id: signUpId,
-        password: signUpPW,
-        nickname: signUpNickname,
-      });
-      event.target.reset();
-      setPasswordsMatch(true);
-      Swal.fire({
-        icon: "success",
-        title: "회원가입이 완료되었습니다.",
-        text: `${signUpNickname}님 환영합니다.`,
-      });
+      const response = await axios.post(
+        "https://moneyfulpublicpolicy.co.kr/register",
+        {
+          id: signUpId,
+          password: signUpPW,
+          nickname: signUpNickname,
+        }
+      );
+      const data = response.data;
+      if (data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "회원가입이 완료되었습니다.",
+          text: "로그인 페이지로 이동합니다.",
+        });
+        navigate("/login");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "회원가입에 실패하였습니다.",
+          text: "다시 시도해주세요.",
+        });
+      }
     } catch (error) {
       console.log("Error =>", error);
     }
@@ -80,8 +102,14 @@ const Signup = () => {
               id="signUpId"
               name="signUpId"
               placeholder="아이디"
+              required
             />
           </InputGroup>
+          {!setIdCheck && (
+            <div className="wrong-format">
+              아이디는 네 글자 이상으로 해주세요.
+            </div>
+          )}
           <InputGroup>
             <label htmlFor="signUpPW">비밀번호</label>
             <input
@@ -89,6 +117,7 @@ const Signup = () => {
               id="signUpPW"
               name="signUpPW"
               placeholder="비밀번호"
+              required
             />
           </InputGroup>
           <InputGroup>
@@ -98,9 +127,10 @@ const Signup = () => {
               id="signUpCheckPW"
               name="signUpCheckPW"
               placeholder="비밀번호확인"
+              required
             />
             {!passwordsMatch && (
-              <div className="pw-inst-same">비밀번호가 다릅니다.</div>
+              <div className="wrong-format">비밀번호가 다릅니다.</div>
             )}
           </InputGroup>
           <InputGroup>
@@ -110,6 +140,7 @@ const Signup = () => {
               id="signUpNickname"
               name="signUpNickname"
               placeholder="닉네임"
+              required
             />
           </InputGroup>
           <Button type="submit">회원가입</Button>

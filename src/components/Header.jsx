@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 const HeaderSection = styled.section`
   width: 100%;
@@ -35,11 +36,19 @@ const Header = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm("정말로 로그아웃 하시겠습니까?");
-    if (confirmLogout) {
-      logout();
-      navigate("/");
-    }
+    Swal.fire({
+      title: "정말로 로그아웃 하시겠습니까?",
+      icon: "warning",
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "로그아웃",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfiremd) {
+        logout();
+        navigate("/");
+      }
+    });
   };
 
   const handleMyPage = () => {
@@ -64,7 +73,7 @@ const Header = () => {
               Logout
             </span>
             <span onClick={handleMyPage} className="logo">
-              My Page
+              MyPage
             </span>
           </div>
         ) : (

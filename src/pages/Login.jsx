@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Swal from "sweetalert2";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 export const Container = styled.div`
   padding: 2rem;
@@ -63,6 +66,46 @@ export const LoginDiv = styled.div`
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const id = formData.get("loginId");
+    const password = formData.get("loginPW");
+
+    try {
+      const response = await axios.post(
+        "https://moneyfulpublicpolicy.co.kr/login",
+        {
+          id,
+          password,
+        }
+      );
+      const data = response.data;
+      if (data.success) {
+        login(data.accessToken);
+        navigate("/mypage");
+        console.log(data);
+        Swal.fire({
+          icon: "success",
+          title: `${data.nickname}님 환영합니다.`,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "로그인에 실패하셨습니다.",
+        });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "에러",
+      });
+    }
+  };
 
   return (
     <Container>
@@ -77,7 +120,7 @@ const Login = () => {
           </span>
         </LoginDiv>
         <h3>로그인</h3>
-        <form>
+        <form onSubmit={handleSubmit}>
           <InputGroup>
             <label htmlFor="loginId">아이디</label>
             <input
