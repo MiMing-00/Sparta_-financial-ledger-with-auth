@@ -1,6 +1,7 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
 
 const HeaderSection = styled.section`
   width: 100%;
@@ -31,20 +32,51 @@ const HeaderWrap = styled.div`
 
 const Header = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("정말로 로그아웃 하시겠습니까?");
+    if (confirmLogout) {
+      logout();
+      navigate("/");
+    }
+  };
+
+  const handleMyPage = () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    } else {
+      navigate("/mypage");
+    }
+  };
+
   return (
     <HeaderSection>
       <HeaderWrap>
         <span onClick={() => navigate("/")} className="logo">
           LOGO
         </span>
-        <div>
-          <span onClick={() => navigate("/signup")} className="logo">
-            SignUp
-          </span>
-          <span onClick={() => navigate("/login")} className="logo">
-            Login
-          </span>
-        </div>
+        {isAuthenticated ? (
+          <div>
+            <span onClick={handleLogout} className="logo">
+              Logout
+            </span>
+            <span onClick={handleMyPage} className="logo">
+              My Page
+            </span>
+          </div>
+        ) : (
+          <div>
+            <Link to="/login" className="logo">
+              Login
+            </Link>
+            <Link to="/signup" className="logo">
+              Signup
+            </Link>
+          </div>
+        )}
       </HeaderWrap>
     </HeaderSection>
   );

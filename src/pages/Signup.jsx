@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../styles/SignUpCss.css";
-import axios from "axios";
+import api from "../axios/api";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Signup = () => {
 
     //서버에 데이터 저장
     try {
-      const { data } = await axios.post("http://localhost:4000/users", {
+      const { data } = await api.post("/users", {
         user_id: signUpId,
         password: signUpPW,
         nickname: signUpNickname,

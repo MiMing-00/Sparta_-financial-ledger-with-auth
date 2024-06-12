@@ -7,6 +7,9 @@
 .logo {
   will-change: filter;
   transition: filter 300ms;
+  text-decoration: none;
+  margin: 1rem;
+  color: white;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
