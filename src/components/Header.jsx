@@ -48,7 +48,11 @@ const Header = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useContext(AuthContext);
   const dispatch = useDispatch();
+  const token = localStorage.getItem("accessToken");
   const { user } = useSelector((state) => state.user);
+  // const user = users.find((user) => user.accessToken === token);
+  // console.log(users);
+  // console.log(user);
 
   const handleLogout = () => {
     Swal.fire({

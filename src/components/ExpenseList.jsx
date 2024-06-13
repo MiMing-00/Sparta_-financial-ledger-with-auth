@@ -1,6 +1,7 @@
 import { Section } from "../pages/Home";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ExpenseItemList = styled.div`
   display: flex;
@@ -75,7 +76,7 @@ export default function ExpenseList({ expenses }) {
           >
             <ExpenseDetails>
               <span>{expense.date}</span>
-              <span>{`${expense.item} - ${expense.description}`}</span>
+              <span>{`${expense.nickname} 님 지출 목록 :  ${expense.item} - ${expense.description}`}</span>
             </ExpenseDetails>
             <span>{expense.amount.toLocaleString()} 원</span>
           </ExpenseItem>

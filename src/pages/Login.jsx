@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/slices/userSlice";
 
 export const Container = styled.div`
   padding: 2rem;
@@ -67,6 +69,7 @@ export const LoginDiv = styled.div`
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -88,6 +91,7 @@ const Login = () => {
         login(data.accessToken);
         navigate("/");
         console.log(data);
+        // dispatch(addUser(data));
         Swal.fire({
           icon: "success",
           title: `${data.nickname}님 환영합니다.`,

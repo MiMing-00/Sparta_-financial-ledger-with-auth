@@ -1,10 +1,12 @@
 import { Section } from "../pages/Home";
 import styled from "styled-components";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addExpense } from "../redux/slices/expensesSlice";
 import jsonApi from "../axios/api";
+import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 const InputRow = styled.div`
   display: flex;
@@ -56,50 +58,54 @@ export default function CreateExpense({ month }) {
   const [newItem, setNewItem] = useState("");
   const [newAmount, setNewAmount] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const { isAuthenticated } = useContext(AuthContext);
+  const { user } = useSelector((state) => state.user);
 
   const handleAddExpense = async () => {
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!datePattern.test(newDate)) {
-      alert("날짜를 YYYY-MM-DD 형식으로 입력해주세요.");
-      return;
-    }
+    if (isAuthenticated) {
+      const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+      if (!datePattern.test(newDate)) {
+        Swal.fire({
+          icon: "info",
+          title: "날짜를 YYYY-MM-DD 형식으로 입력해주세요.",
+        });
+        return;
+      }
 
-    const parsedAmount = parseInt(newAmount, 10);
-    if (!newItem || parsedAmount <= 0) {
-      alert("유효한 항목과 금액을 입력해주세요.");
-      return;
-    }
+      const parsedAmount = parseInt(newAmount, 10);
+      if (!newItem || parsedAmount <= 0) {
+        Swal.fire({
+          icon: "info",
+          title: "유효한 항목과 금액을 입력해주세요.",
+        });
+        return;
+      }
 
-    // const newExpense = {
-    //   id: uuidv4(),
-    //   month: parseInt(newDate.split("-")[1], 10),
-    //   date: newDate,
-    //   item: newItem,
-    //   amount: parsedAmount,
-    //   description: newDescription,
-    // };
+      try {
+        const { data } = await jsonApi.post("/expensesData", {
+          id: user.id,
+          ninkname: user.nickname,
+          month: parseInt(newDate.split("-")[1], 10),
+          date: newDate,
+          item: newItem,
+          amount: parsedAmount,
+          description: newDescription,
+        });
+        dispatch(addExpense(data));
+      } catch (error) {
+        console.log(error);
+      }
 
-    // TODO: axios post로 crud 중 c id도 같이 해야 함
-    // 이거는 제이슨 서버로 해야 함
-    try {
-      const { data } = await jsonApi.post("/expensesData", {
-        // id 임시 값
-        id: uuidv4(),
-        month: parseInt(newDate.split("-")[1], 10),
-        date: newDate,
-        item: newItem,
-        amount: parsedAmount,
-        description: newDescription,
+      setNewDate(`2024-${String(month).padStart(2, "0")}-01`);
+      setNewItem("");
+      setNewAmount("");
+      setNewDescription("");
+    } else {
+      Swal.fire({
+        icon: "info",
+        title: "로그인 이후 이용해주세요!",
       });
-      dispatch(addExpense(data));
-    } catch (error) {
-      console.log(error);
     }
-
-    setNewDate(`2024-${String(month).padStart(2, "0")}-01`);
-    setNewItem("");
-    setNewAmount("");
-    setNewDescription("");
   };
 
   return (
