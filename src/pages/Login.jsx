@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addUser } from "../redux/slices/userSlice";
 
 export const Container = styled.div`
   padding: 2rem;
@@ -90,8 +89,6 @@ const Login = () => {
       if (data.success) {
         login(data.accessToken);
         navigate("/");
-        console.log(data);
-        // dispatch(addUser(data));
         Swal.fire({
           icon: "success",
           title: `${data.nickname}님 환영합니다.`,

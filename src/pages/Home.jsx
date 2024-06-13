@@ -25,7 +25,6 @@ export const Section = styled.section`
 
 export default function Home() {
   const [month, setMonth] = useState(1);
-  // const expenses = useSelector((state) => state.expenses);
 
   const getExpenses = async () => {
     const { data } = await jsonApi.get("/expensesData");
@@ -45,7 +44,9 @@ export default function Home() {
     return <div>error!</div>;
   }
 
-  const filteredExpenses = data.filter((expense) => expense.month === month);
+  const filteredExpenses = data.filter((expense) => {
+    return expense.month === month;
+  });
 
   return (
     <Container>

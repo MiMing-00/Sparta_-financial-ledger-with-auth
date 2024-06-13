@@ -42,6 +42,7 @@ const HeaderImg = styled.img`
   max-height: 30px;
   border-radius: 50%;
   object-fit: cover;
+  cursor: pointer;
 `;
 
 const Header = () => {
@@ -50,9 +51,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("accessToken");
   const { user } = useSelector((state) => state.user);
-  // const user = users.find((user) => user.accessToken === token);
-  // console.log(users);
-  // console.log(user);
+  console.log(user);
 
   const handleLogout = () => {
     Swal.fire({
@@ -95,7 +94,6 @@ const Header = () => {
               },
             }
           );
-          console.log(data);
           dispatch(changeProfile(data));
         } catch (error) {
           console.log(error);
@@ -115,21 +113,13 @@ const Header = () => {
           </span>
         </div>
         <div>
-          {isAuthenticated ? (
-            <>
-              <span style={{ color: "white" }}>{user.nickname} 님</span>
-              {user.avatar ? (
-                <span>
-                  <HeaderImg src={user.avatar} />
-                </span>
-              ) : (
-                <span>
-                  <HeaderImg src={MetamongDefaultImg} />
-                </span>
-              )}
-            </>
-          ) : (
-            ""
+          {isAuthenticated && (
+            <span>
+              <HeaderImg
+                onClick={() => navigate("/mypage")}
+                src={user.avatar || MetamongDefaultImg}
+              />
+            </span>
           )}
         </div>
         {isAuthenticated ? (

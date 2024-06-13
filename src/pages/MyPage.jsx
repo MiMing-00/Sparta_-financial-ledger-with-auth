@@ -11,7 +11,7 @@ import { changeProfile } from "../redux/slices/userSlice";
 
 const MyPage = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, userInfo } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 

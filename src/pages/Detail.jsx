@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { editExpense, deleteExpense } from "../redux/slices/expensesSlice";
 import jsonApi from "../axios/api";
+import { useQuery } from "@tanstack/react-query";
 
 const Container = styled.div`
   max-width: 800px;
@@ -64,9 +65,27 @@ export default function Detail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const expenses = useSelector((state) => state.expenses);
 
-  const selectedExpense = expenses.find((element) => element.id === id);
+  // 데이터 불러오기
+  const getExpenses = async () => {
+    const { data } = await jsonApi.get("/expensesData");
+    return data;
+  };
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["expensesData"],
+    queryFn: getExpenses,
+  });
+
+  if (isPending) {
+    return <div>loading...</div>;
+  }
+
+  if (isError) {
+    return <div>error!</div>;
+  }
+
+  const selectedExpense = data.find((element) => element.id === id);
 
   const [date, setDate] = useState(selectedExpense.date);
   const [item, setItem] = useState(selectedExpense.item);
@@ -85,23 +104,14 @@ export default function Detail() {
       return;
     }
 
-    // const newExpense = {
-    //   id: id,
-    //   date: date,
-    //   item: item,
-    //   amount: amount,
-    //   description: description,
-    // };
-
     try {
-      await jsonApi.patch("/expensesData" + id, {
+      await jsonApi.post("/expensesData" + id, {
         date,
         item,
         amount,
         description,
       });
-      console.log(data);
-      dispatch(editExpense(data));
+
       navigate("/");
     } catch (error) {
       console.log(error);
