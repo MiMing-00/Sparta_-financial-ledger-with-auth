@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 
 const jsonApi = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "https://elderly-quasar-soul.glitch.me",
 });
 
 export const getExpenses = async () => {
