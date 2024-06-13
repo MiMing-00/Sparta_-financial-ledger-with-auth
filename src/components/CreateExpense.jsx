@@ -1,13 +1,13 @@
 import { Section } from "../pages/Home";
 import styled from "styled-components";
 import { useContext, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
-import { addExpense } from "../redux/slices/expensesSlice";
-import jsonApi from "../axios/api";
+import { useSelector } from "react-redux";
+import { postExpenses } from "../axios/api";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { queryClient } from "../main";
 
 const InputRow = styled.div`
   display: flex;
@@ -52,7 +52,6 @@ const AddButton = styled.button`
 `;
 
 export default function CreateExpense({ month }) {
-  const dispatch = useDispatch();
   const [newDate, setNewDate] = useState(
     `2024-${String(month).padStart(2, "0")}-01`
   );
@@ -61,6 +60,21 @@ export default function CreateExpense({ month }) {
   const [newDescription, setNewDescription] = useState("");
   const { isAuthenticated } = useContext(AuthContext);
   const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: postExpenses,
+    onSuccess: () => {
+      Swal.fire({
+        icon: "success",
+        title: "지출이 작성 완료되었습니다.",
+        text: "직접 확인해보세요!",
+      }).then(() => {
+        queryClient.invalidateQueries(["expensesData"]);
+        navigate(0);
+      });
+    },
+  });
 
   const handleAddExpense = async () => {
     if (!isAuthenticated) {
@@ -89,129 +103,23 @@ export default function CreateExpense({ month }) {
       return;
     }
 
-    try {
-      const { data } = await jsonApi.post("/expensesData", {
-        userId: user.id,
-        nickname: user.nickname,
-        month: parseInt(newDate.split("-")[1], 10),
-        date: newDate,
-        item: newItem,
-        amount: parsedAmount,
-        description: newDescription,
-      });
+    const newExpense = {
+      userId: user.id,
+      nickname: user.nickname,
+      month: parseInt(newDate.split("-")[1], 10),
+      date: newDate,
+      item: newItem,
+      amount: parsedAmount,
+      description: newDescription,
+    };
 
-      setNewDate(`2024-${String(month).padStart(2, "0")}-01`);
-      setNewItem("");
-      setNewAmount("");
-      setNewDescription("");
+    mutation.mutate(newExpense);
 
-      return data; //데이터 반환??
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: "항목 작성 중 오류가 발생했습니다.",
-      });
-      throw error; // 에러를 다시 throw?...
-    }
+    setNewDate(`2024-${String(month).padStart(2, "0")}-01`);
+    setNewItem("");
+    setNewAmount("");
+    setNewDescription("");
   };
-
-  const { mutate } = useMutation({
-    mutationFn: handleAddExpense,
-    onSuccess: () => {
-      Swal.fire({
-        icon: "success",
-        title: "항목이 작성되었습니다.",
-      });
-    },
-  });
-
-  // const handleAddExpense = async () => {
-  //   if (isAuthenticated) {
-  //     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-  //     if (!datePattern.test(newDate)) {
-  //       Swal.fire({
-  //         icon: "info",
-  //         title: "날짜를 YYYY-MM-DD 형식으로 입력해주세요.",
-  //       });
-  //       return;
-  //     }
-
-  //     const parsedAmount = parseInt(newAmount, 10);
-  //     if (!newItem || parsedAmount <= 0) {
-  //       Swal.fire({
-  //         icon: "info",
-  //         title: "유효한 항목과 금액을 입력해주세요.",
-  //       });
-  //       return;
-  //     }
-  //   }
-  //   try {
-  //     const { data } = await jsonApi.post("/expensesData", {
-  //       userId: user.id,
-  //       nickname: user.nickname,
-  //       month: parseInt(newDate.split("-")[1], 10),
-  //       date: newDate,
-  //       item: newItem,
-  //       amount: parsedAmount,
-  //       description: newDescription,
-  //     });
-
-  //     setNewDate(`2024-${String(month).padStart(2, "0")}-01`);
-  //     setNewItem("");
-  //     setNewAmount("");
-  //     setNewDescription("");
-
-  //     return data;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const { mutate } = useMutation({
-  //   mutationFn: handleAddExpense,
-  //   onSuccess: () => {
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "항목이 작성되었습니다.",
-  //     });
-  //   },
-  // });
-
-  // try {
-  //   const { data } = await jsonApi.post("/expensesData", {
-  //     userId: user.id,
-  //     nickname: user.nickname,
-  //     month: parseInt(newDate.split("-")[1], 10),
-  //     date: newDate,
-  //     item: newItem,
-  //     amount: parsedAmount,
-  //     description: newDescription,
-  //   });
-  //   // TODO: 디스패치를 굳이 해야 하나? 고민해보기
-  //   // dispatch(addExpense(data));
-  // } catch (error) {
-  //   console.log(error);
-  // }
-
-  //   } else {
-  //     Swal.fire({
-  //       icon: "info",
-  //       title: "로그인 이후 이용해주세요!",
-  //     });
-  //   }
-  // };
-
-  // const { mutate } = useMutation({
-  //   mutationFn: handleAddExpense,
-
-  //   onSuccess: () => {
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "항목이 작성되었습니다.",
-  //     });
-  //   },
-  // });
 
   return (
     <Section>
@@ -256,7 +164,7 @@ export default function CreateExpense({ month }) {
             placeholder="지출 내용"
           />
         </InputGroupInline>
-        <AddButton onClick={() => mutate()}>저장</AddButton>
+        <AddButton onClick={handleAddExpense}>저장</AddButton>
       </InputRow>
     </Section>
   );

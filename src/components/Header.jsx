@@ -51,7 +51,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("accessToken");
   const { user } = useSelector((state) => state.user);
-  console.log(user);
 
   const handleLogout = () => {
     Swal.fire({

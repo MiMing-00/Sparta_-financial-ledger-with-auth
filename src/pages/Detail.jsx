@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { editExpense, deleteExpense } from "../redux/slices/expensesSlice";
-import jsonApi from "../axios/api";
-import { useQuery } from "@tanstack/react-query";
+import jsonApi, { editExpenses } from "../axios/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import { queryClient } from "../main";
 
 const Container = styled.div`
   max-width: 800px;
@@ -65,6 +67,7 @@ export default function Detail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const { user } = useSelector((state) => state.user);
 
   // 데이터 불러오기
   const getExpenses = async () => {
@@ -92,8 +95,25 @@ export default function Detail() {
   const [amount, setAmount] = useState(selectedExpense.amount);
   const [description, setDescription] = useState(selectedExpense.description);
 
-  //TODO: curd u
+  const mutationupdate = useMutation({
+    mutationFn: editExpenses,
+    onSuccess: () => {
+      Swal.fire({
+        icon: "success",
+        title: "수정이 완료되었습니다.",
+        text: "직접 확인해보세요!",
+      }).then(() => {
+        queryClient.invalidateQueries(["expensesData"]);
+        navigate("/");
+      });
+    },
+  });
+
+  //TODO: curd u 해당 아이디랑 유효성 검사
   const handleEdit = async (id) => {
+    const theUser = data.filter((item) => item.userId === user.id);
+    const thePost = theUser.filter((item) => item.id === id);
+
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!datePattern.test(date)) {
       alert("날짜를 YYYY-MM-DD 형식으로 입력해주세요.");
@@ -104,18 +124,18 @@ export default function Detail() {
       return;
     }
 
-    try {
-      await jsonApi.post("/expensesData" + id, {
-        date,
-        item,
-        amount,
-        description,
-      });
+    const updateExpense = {
+      id,
+      date,
+      item,
+      amount,
+      description,
+      userId: user.id,
+      nickname: user.nickname,
+      month: parseInt(date.split("-")[1], 10),
+    };
 
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
+    mutationupdate.mutate(updateExpense);
   };
 
   //TODO: crud d
@@ -172,7 +192,7 @@ export default function Detail() {
         />
       </InputGroup>
       <ButtonGroup>
-        <Button type="button" onClick={handleEdit}>
+        <Button type="button" onClick={() => handleEdit(id)}>
           수정
         </Button>
         <Button type="button" $danger="true" onClick={() => handleDelete(id)}>

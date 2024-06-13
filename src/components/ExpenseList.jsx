@@ -63,9 +63,6 @@ const ExpenseDetails = styled.div`
 
 export default function ExpenseList({ expenses }) {
   const navigate = useNavigate();
-
-  console.log(expenses);
-
   return (
     <Section>
       <ExpenseItemList>

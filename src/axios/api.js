@@ -5,6 +5,27 @@ const jsonApi = axios.create({
   baseURL: "http://localhost:4000",
 });
 
+export const getExpenses = async () => {
+  const { data } = await jsonApi.get("/expensesData");
+  return data;
+};
+
+export const postExpenses = async (newExpense) => {
+  const { data } = await jsonApi.post("/expensesData", newExpense);
+  return data;
+};
+
+export const editExpenses = async (updateExpense) => {
+  const { id, userId, nickname, ...rest } = updateExpense;
+  const { data } = await jsonApi.put(`/expensesData/${id}`, updateExpense);
+  return data;
+};
+
+export const deleteExpenses = async () => {
+  const { data } = await jsonApi.delete(`/expensesData/${id}`);
+  return data;
+};
+
 jsonApi.interceptors.request.use((config) => {
   console.log("인터셉트 요청 성공");
   return config;

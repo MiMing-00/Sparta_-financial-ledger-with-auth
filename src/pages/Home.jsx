@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import MonthNavigation from "../components/MonthNavigation";
 import ExpenseList from "../components/ExpenseList";
 import CreateExpense from "../components/CreateExpense";
-import { useSelector } from "react-redux";
-import jsonApi from "../axios/api";
+import { getExpenses } from "../axios/api";
 import { useQuery } from "@tanstack/react-query";
 
 const Container = styled.main`
@@ -25,11 +24,6 @@ export const Section = styled.section`
 
 export default function Home() {
   const [month, setMonth] = useState(1);
-
-  const getExpenses = async () => {
-    const { data } = await jsonApi.get("/expensesData");
-    return data;
-  };
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["expensesData"],

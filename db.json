@@ -62,82 +62,64 @@
       "userId": "41eeqwwc07-5f9c-4650-941f"
     },
     {
-      "id": "0abf06c3-8f0e-4ea1-9691-7facab0a91cb",
-      "month": 7,
-      "date": "2024-07-30",
-      "item": "외식",
-      "amount": 100000,
-      "description": "세광양대창",
-      "nickname": "Me",
-      "userId": "4111207-5f9c-4e20-912f"
-    },
-    {
-      "id": "b346",
-      "month": 9,
-      "date": "2024-09-10",
-      "item": "22",
-      "amount": 22,
+      "id": "1283",
+      "userId": "test-01",
+      "nickname": "test-02",
+      "month": 1,
+      "date": "2024-01-01",
+      "item": "안녕",
+      "amount": 1500,
       "description": "마라엽떡"
     },
     {
-      "id": "1654",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 2,
-      "date": "2024-02-01",
-      "item": "부동산",
-      "amount": 1231000000,
-      "description": "건물"
-    },
-    {
-      "id": "6bd6",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 1,
-      "date": "2024-01-10",
-      "item": "왜 바로 안 보임",
-      "amount": 10,
-      "description": "5"
-    },
-    {
-      "id": "f2bf",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 1,
+      "id": "7c3e",
       "date": "2024-01-01",
-      "item": "부동산",
-      "amount": 12000000,
-      "description": "한강이 보이는 건물"
-    },
-    {
-      "id": "4d8d",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 1,
-      "date": "2024-01-01",
-      "item": "ㅎㅇ",
-      "amount": 11,
-      "description": "ㅎㅇ"
-    },
-    {
-      "id": "811c",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 1,
-      "date": "2024-01-01",
-      "item": "휴",
-      "amount": 123,
-      "description": "힘들군"
-    },
-    {
-      "id": "3831",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 2,
-      "date": "2024-02-01",
-      "item": "그만",
+      "item": "하...",
       "amount": 123123,
-      "description": "그만 ㅜㅜ"
+      "description": "ㅋㅋㅋㅎㅎ",
+      "userId": "test-01",
+      "nickname": "test-02",
+      "month": 1
+    },
+    {
+      "id": "eebc",
+      "userId": "test-01",
+      "nickname": "test-02",
+      "month": 1,
+      "date": "2024-01-01",
+      "item": "힘들군여",
+      "amount": 23,
+      "description": "1111"
+    },
+    {
+      "id": "ab38",
+      "date": "2024-03-01",
+      "item": "오잉",
+      "amount": "150000",
+      "description": "ㅎㅎㅎㅎ",
+      "userId": "test-01",
+      "nickname": "test-02",
+      "month": 3
+    },
+    {
+      "id": "afea",
+      "userId": "test-01",
+      "nickname": "test-02",
+      "month": 1,
+      "date": "2024-01-01",
+      "item": "하",
+      "amount": 123123,
+      "description": "되니"
+    },
+    {
+      "id": "50db",
+      "userId": "test-01",
+      "nickname": "test-02",
+      "month": 1,
+      "date": "2024-01-01",
+      "item": "야옹",
+      "amount": 123123,
+      "description": "야옹"
     }
   ]
 }
