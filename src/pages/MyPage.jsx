@@ -28,19 +28,12 @@ const MyPage = () => {
     }
   }, [isAuthenticated]);
 
-  // 요청 시 Content-Type에 유의
-
   const changeUserProfile = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    // const nickname = formData.get("nickname");
-    // const avatar = formData.get("avatar");
-
-    if (nickname || avatar) {
-      formData.append("nickname", nickname);
-      formData.append("avatar", avatar);
-    }
+    const nickname = formData.get("nickname");
+    const avatar = formData.get("avatar");
 
     try {
       const token = localStorage.getItem("accessToken");
@@ -54,7 +47,6 @@ const MyPage = () => {
           },
         }
       );
-      console.log(data);
       dispatch(changeProfile(data));
       Swal.fire({
         icon: "success",
@@ -68,7 +60,7 @@ const MyPage = () => {
   return (
     <Container>
       <Section>
-        {user.avater ? (
+        {user.avater !== null ? (
           <img className="profile-img" src={user.avatar} />
         ) : (
           <img className="profile-img" src={MetamongDefaultImg} />
