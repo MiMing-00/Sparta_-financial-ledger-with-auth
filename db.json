@@ -62,26 +62,6 @@
       "userId": "41eeqwwc07-5f9c-4650-941f"
     },
     {
-      "id": "1283",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 1,
-      "date": "2024-01-01",
-      "item": "안녕",
-      "amount": 1500,
-      "description": "마라엽떡"
-    },
-    {
-      "id": "7c3e",
-      "date": "2024-01-01",
-      "item": "하...",
-      "amount": 123123,
-      "description": "ㅋㅋㅋㅎㅎ",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 1
-    },
-    {
       "id": "eebc",
       "userId": "test-01",
       "nickname": "test-02",
@@ -110,16 +90,6 @@
       "item": "하",
       "amount": 123123,
       "description": "되니"
-    },
-    {
-      "id": "50db",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 1,
-      "date": "2024-01-01",
-      "item": "야옹",
-      "amount": 123123,
-      "description": "야옹"
     }
   ]
 }

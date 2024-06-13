@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { editExpense, deleteExpense } from "../redux/slices/expensesSlice";
-import jsonApi, { editExpenses } from "../axios/api";
+import jsonApi, { deleteExpenses, editExpenses } from "../axios/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { queryClient } from "../main";
@@ -109,6 +109,25 @@ export default function Detail() {
     },
   });
 
+  const mutationremove = useMutation({
+    mutationFn: deleteExpenses,
+    onSuccess: () => {
+      Swal.fire({
+        title: "정말로 삭제 하시겠습니까?",
+        icon: "warning",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "삭제",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          queryClient.invalidateQueries(["expensesData"]);
+          navigate("/");
+        }
+      });
+    },
+  });
+
   //TODO: curd u 해당 아이디랑 유효성 검사
   const handleEdit = async (id) => {
     const theUser = data.filter((item) => item.userId === user.id);
@@ -139,13 +158,11 @@ export default function Detail() {
   };
 
   //TODO: crud d
-  const handleDelete = async (id) => {
+  const handleDelete = () => {
     try {
-      await jsonApi.delete("/expensesData/" + id);
-      dispatch(deleteExpense({ id }));
-      navigate("/");
+      mutationremove.mutate(id);
     } catch (error) {
-      console.log(error);
+      console.error("handleDelete 함수 오류:", error);
     }
   };
 

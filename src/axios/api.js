@@ -21,9 +21,13 @@ export const editExpenses = async (updateExpense) => {
   return data;
 };
 
-export const deleteExpenses = async () => {
-  const { data } = await jsonApi.delete(`/expensesData/${id}`);
-  return data;
+export const deleteExpenses = async (id) => {
+  try {
+    const { data } = await jsonApi.delete(`/expensesData/${id}`);
+    return data;
+  } catch (error) {
+    console.error("deleteExpenses API 요청 오류:", error);
+  }
 };
 
 jsonApi.interceptors.request.use((config) => {
