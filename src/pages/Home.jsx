@@ -4,6 +4,8 @@ import MonthNavigation from "../components/MonthNavigation";
 import ExpenseList from "../components/ExpenseList";
 import CreateExpense from "../components/CreateExpense";
 import { useSelector } from "react-redux";
+import jsonApi from "../axios/api";
+import { useQuery } from "@tanstack/react-query";
 
 const Container = styled.main`
   max-width: 800px;
@@ -23,11 +25,27 @@ export const Section = styled.section`
 
 export default function Home() {
   const [month, setMonth] = useState(1);
-  const expenses = useSelector((state) => state.expenses);
+  // const expenses = useSelector((state) => state.expenses);
 
-  const filteredExpenses = expenses.filter(
-    (expense) => expense.month === month
-  );
+  const getExpenses = async () => {
+    const { data } = await jsonApi.get("/expensesData");
+    return data;
+  };
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["expensesData"],
+    queryFn: getExpenses,
+  });
+
+  if (isPending) {
+    return <div>loading...</div>;
+  }
+
+  if (isError) {
+    return <div>error!</div>;
+  }
+
+  const filteredExpenses = data.filter((expense) => expense.month === month);
 
   return (
     <Container>

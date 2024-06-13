@@ -83,7 +83,7 @@ export default function CreateExpense({ month }) {
 
       try {
         const { data } = await jsonApi.post("/expensesData", {
-          id: user.id,
+          userId: user.id,
           ninkname: user.nickname,
           month: parseInt(newDate.split("-")[1], 10),
           date: newDate,
