@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Container,
-  InputGroup,
-  LoginDiv,
-  LogincSection,
-} from "./Login";
+import { Button, Container, InputGroup, LoginDiv, Section } from "./Login";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../styles/SignUpCss.css";
@@ -26,7 +20,12 @@ const Signup = () => {
     const signUpNickname = formData.get("signUpNickname");
 
     // 유효성 검사 추가
-    if (!signUpId || !signUpPW || !signUpCheckPW || !signUpNickname) {
+    if (
+      !signUpId.trim() ||
+      !signUpPW.trim() ||
+      !signUpCheckPW.trim() ||
+      !signUpNickname.trim()
+    ) {
       Swal.fire({
         title: "빈 칸을 모두 기입해주세요!",
         text: "내용을 확인하고 모두 입력해주세요.",
@@ -35,11 +34,13 @@ const Signup = () => {
       return;
     }
 
-    //아이디 네 글자 이상 (임시)
-    if (signUpId.length < 4) {
+    //아이디 네 글자 이상 열 글자 미만 (임시....)
+    if (signUpId.length < 4 || signUpId.length > 10) {
       setIdCheck(false);
       return;
     }
+
+    //패스워드도 똑같이
 
     //비밀번호 일치 확인
     if (signUpPW !== signUpCheckPW) {
@@ -83,7 +84,7 @@ const Signup = () => {
 
   return (
     <Container>
-      <LogincSection>
+      <Section>
         <LoginDiv>
           <span>이미 회원입니까?</span>
           <span
@@ -145,7 +146,7 @@ const Signup = () => {
           </InputGroup>
           <Button type="submit">회원가입</Button>
         </form>
-      </LogincSection>
+      </Section>
     </Container>
   );
 };

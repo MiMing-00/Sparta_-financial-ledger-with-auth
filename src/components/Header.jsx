@@ -1,8 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { changeProfile } from "../redux/slices/userSlice";
+import axios from "axios";
+import MetamongDefaultImg from "../img/defaultIMG.png";
 
 const HeaderSection = styled.section`
   width: 100%;
@@ -28,12 +32,23 @@ const HeaderSection = styled.section`
 const HeaderWrap = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+`;
+
+const HeaderImg = styled.img`
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const Header = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
 
   const handleLogout = () => {
     Swal.fire({
@@ -44,7 +59,7 @@ const Header = () => {
       confirmButtonText: "로그아웃",
       cancelButtonText: "취소",
     }).then((result) => {
-      if (result.isConfiremd) {
+      if (result.isConfirmed) {
         logout();
         navigate("/");
       }
@@ -61,12 +76,58 @@ const Header = () => {
     }
   };
 
+  //유저 정보 담아서
+  //useEffect 마운트될 때  헤더에 정보 두 개 담고
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        try {
+          const { data } = await axios.get(
+            "https://moneyfulpublicpolicy.co.kr/user",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log(data);
+          dispatch(changeProfile(data));
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    getUserInfo();
+  }, []);
+
   return (
     <HeaderSection>
       <HeaderWrap>
-        <span onClick={() => navigate("/")} className="logo">
-          LOGO
-        </span>
+        <div>
+          <span onClick={() => navigate("/")} className="logo">
+            HOME
+          </span>
+        </div>
+        <div>
+          {isAuthenticated ? (
+            <>
+              <span style={{ color: "white" }}>{user.nickname} 님</span>
+              {user.avatar ? (
+                <span>
+                  <HeaderImg src={user.avatar} />
+                </span>
+              ) : (
+                <span>
+                  <HeaderImg src={MetamongDefaultImg} />
+                </span>
+              )}
+            </>
+          ) : (
+            ""
+          )}
+        </div>
         {isAuthenticated ? (
           <div>
             <span onClick={handleLogout} className="logo">

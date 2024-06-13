@@ -9,7 +9,7 @@ export const Container = styled.div`
   padding: 2rem;
 `;
 
-export const LogincSection = styled.section`
+export const Section = styled.section`
   max-width: 300px;
   margin: 2rem auto;
   padding: 2rem;
@@ -86,7 +86,7 @@ const Login = () => {
       const data = response.data;
       if (data.success) {
         login(data.accessToken);
-        navigate("/mypage");
+        navigate("/");
         console.log(data);
         Swal.fire({
           icon: "success",
@@ -109,7 +109,7 @@ const Login = () => {
 
   return (
     <Container>
-      <LogincSection>
+      <Section>
         <LoginDiv>
           <span>처음 방문하셨나요?</span>
           <span
@@ -141,7 +141,7 @@ const Login = () => {
           </InputGroup>
           <Button type="submit">로그인</Button>
         </form>
-      </LogincSection>
+      </Section>
     </Container>
   );
 };
