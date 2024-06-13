@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
@@ -7,7 +7,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import MetamongDefaultImg from "../img/defaultIMG.png";
 import "../styles/MyPageCss.css";
-import { changeProfile } from "../redux/slices/userSlice";
+import { setUser } from "../redux/slices/userSlice";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -25,8 +25,9 @@ const MyPage = () => {
       });
       navigate("/login");
     } else {
+      dispatch(setUser(user));
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   const changeUserProfile = async (event) => {
     event.preventDefault();
@@ -47,7 +48,7 @@ const MyPage = () => {
           },
         }
       );
-      dispatch(changeProfile(data));
+      dispatch(setUser(data));
       Swal.fire({
         icon: "success",
         title: "프로필이 업데이트 되었습니다.",
@@ -57,13 +58,19 @@ const MyPage = () => {
     }
   };
 
+  if (!user) {
+    return <div>loading...</div>;
+  }
+
+  console.log(user);
+
   return (
     <Container>
       <Section>
-        {user.avater !== null ? (
-          <img className="profile-img" src={user.avatar} />
+        {!user.avatar ? (
+          <img className="profile-img" src={MetamongDefaultImg} alt="이미지" />
         ) : (
-          <img className="profile-img" src={MetamongDefaultImg} />
+          <img className="profile-img" src={user.avatar} alt="프로필 사진" />
         )}
         <div>{user.id}</div>
         <div>{user.nickname} 님</div>
@@ -78,7 +85,7 @@ const MyPage = () => {
             />
           </InputGroup>
           <InputGroup>
-            <label htmlFor="avatar"></label>
+            <label htmlFor="avatar">프로필 사진 변경</label>
             <input type="file" name="avatar" id="avatar" />
           </InputGroup>
           <Button type="submit">저장하기</Button>

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { changeProfile } from "../redux/slices/userSlice";
+import { clearUser, setUser } from "../redux/slices/userSlice";
 import axios from "axios";
 import MetamongDefaultImg from "../img/defaultIMG.png";
 
@@ -63,6 +63,7 @@ const Header = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         logout();
+        dispatch(clearUser());
         navigate("/");
       }
     });
@@ -93,7 +94,7 @@ const Header = () => {
               },
             }
           );
-          dispatch(changeProfile(data));
+          dispatch(setUser(data));
         } catch (error) {
           console.log(error);
         }
@@ -101,7 +102,9 @@ const Header = () => {
     };
 
     getUserInfo();
-  }, []);
+  }, [dispatch, token]);
+
+  console.log(user);
 
   return (
     <HeaderSection>
@@ -112,13 +115,24 @@ const Header = () => {
           </span>
         </div>
         <div>
-          {isAuthenticated && (
-            <span>
-              <HeaderImg
-                onClick={() => navigate("/mypage")}
-                src={user.avatar || MetamongDefaultImg}
-              />
-            </span>
+          {isAuthenticated && user && (
+            <div style={{ flexDirection: "row", display: "flex", gap: "1rem" }}>
+              <div>
+                <HeaderImg
+                  onClick={() => navigate("/mypage")}
+                  src={user.avatar ? user.avatar : MetamongDefaultImg}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {user.nickname} 님
+              </div>
+            </div>
           )}
         </div>
         {isAuthenticated ? (

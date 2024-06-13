@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 
 export const Container = styled.div`
   padding: 2rem;
@@ -68,7 +67,6 @@ export const LoginDiv = styled.div`
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
-  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -97,13 +95,15 @@ const Login = () => {
         Swal.fire({
           icon: "error",
           title: "로그인에 실패하셨습니다.",
+          text: "아이디와 비밀번호를 다시 한 번 확인해주세요.",
         });
       }
     } catch (error) {
       console.error("Login error:", error);
       Swal.fire({
         icon: "error",
-        title: "에러",
+        title: "로그인에 실패하셨습니다.",
+        text: "아이디와 비밀번호를 다시 한 번 확인해주세요.",
       });
     }
   };
