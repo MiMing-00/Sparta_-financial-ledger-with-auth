@@ -31,13 +31,11 @@ export const deleteExpenses = async (id) => {
 };
 
 jsonApi.interceptors.request.use((config) => {
-  console.log("인터셉트 요청 성공");
   return config;
 });
 
 jsonApi.interceptors.response.use(
   (response) => {
-    console.log("응답 받음");
     return response;
   },
   (error) => {

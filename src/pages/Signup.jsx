@@ -50,7 +50,6 @@ const Signup = () => {
 
     event.target.reset();
     setPasswordsMatch(true);
-    console.log(signUpId, signUpPW);
 
     //서버에 데이터 저장
     try {

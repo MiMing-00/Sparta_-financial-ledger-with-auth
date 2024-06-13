@@ -2,24 +2,54 @@
   "users": [],
   "expensesData": [
     {
-      "id": "46869445-5f9c-4650-941f-41bd9457bc07",
-      "month": 1,
-      "date": "2024-01-03",
-      "item": "개인사업",
-      "amount": 1000000,
-      "description": "테슬라 모델 3",
-      "nickname": "Musk",
-      "userId": "41bd9457bc07-5f9c-4650-941f"
+      "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
+      "month": 2,
+      "date": "2024-02-13",
+      "item": "식비",
+      "amount": 2000,
+      "description": "메가커피",
+      "nickname": "Rosie",
+      "userId": "41bd966c07-5e3c-4130-941f"
     },
     {
-      "id": "a5c0d8de-d010-4d07-9934-29765051a7ea",
-      "month": 2,
-      "date": "2024-02-07",
-      "item": "개인사업",
-      "amount": 1000,
-      "description": "X(구 트위터)",
-      "nickname": "Musk",
-      "userId": "41b13327bc07-5f9c-4650-941f"
+      "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
+      "month": 1,
+      "date": "2024-01-13",
+      "item": "식비",
+      "amount": 2000,
+      "description": "메가커피",
+      "nickname": "Rosie",
+      "userId": "41bd966c07-5e3c-4130-941f"
+    },
+    {
+      "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
+      "month": 10,
+      "date": "2024-10-13",
+      "item": "식비",
+      "amount": 2000,
+      "description": "메가커피",
+      "nickname": "Rosie",
+      "userId": "41bd966c07-5e3c-4130-941f"
+    },
+    {
+      "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
+      "month": 9,
+      "date": "2024-09-13",
+      "item": "식비",
+      "amount": 2000,
+      "description": "메가커피",
+      "nickname": "Rosie",
+      "userId": "41bd966c07-5e3c-4130-941f"
+    },
+    {
+      "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
+      "month": 5,
+      "date": "2024-05-13",
+      "item": "식비",
+      "amount": 2000,
+      "description": "메가커피",
+      "nickname": "Rosie",
+      "userId": "41bd966c07-5e3c-4130-941f"
     },
     {
       "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
@@ -63,13 +93,13 @@
     },
     {
       "id": "eebc",
+      "date": "2024-01-01",
+      "item": "안 힘들군요",
+      "amount": 23,
+      "description": "1111",
       "userId": "test-01",
       "nickname": "test-02",
-      "month": 1,
-      "date": "2024-01-01",
-      "item": "힘들군여",
-      "amount": 23,
-      "description": "1111"
+      "month": 1
     },
     {
       "id": "ab38",
@@ -83,13 +113,13 @@
     },
     {
       "id": "afea",
-      "userId": "test-01",
-      "nickname": "test-02",
-      "month": 1,
       "date": "2024-01-01",
       "item": "하",
       "amount": 123123,
-      "description": "되니"
+      "description": "되니",
+      "userId": "test-01",
+      "nickname": "test-02",
+      "month": 1
     }
   ]
 }

@@ -11,13 +11,11 @@ export const AuthProvider = ({ children }) => {
   const login = (token) => {
     localStorage.setItem("accessToken", token);
     setIsAuthenticated(true);
-    console.log("User logged in:", true);
   };
 
   const logout = () => {
     localStorage.clear();
     setIsAuthenticated(false);
-    console.log("User logged out:", false);
   };
 
   return (

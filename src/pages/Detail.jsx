@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { editExpense, deleteExpense } from "../redux/slices/expensesSlice";
+import { useSelector } from "react-redux";
 import jsonApi, { deleteExpenses, editExpenses } from "../axios/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
@@ -65,7 +64,6 @@ const BackButton = styled(Button)`
 
 export default function Detail() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { id } = useParams();
   const { user } = useSelector((state) => state.user);
 
@@ -133,36 +131,55 @@ export default function Detail() {
     const theUser = data.filter((item) => item.userId === user.id);
     const thePost = theUser.filter((item) => item.id === id);
 
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!datePattern.test(date)) {
-      alert("날짜를 YYYY-MM-DD 형식으로 입력해주세요.");
+    if (thePost && thePost.length > 0 && thePost[0].id === id) {
+      const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+      if (!datePattern.test(date)) {
+        alert("날짜를 YYYY-MM-DD 형식으로 입력해주세요.");
+        return;
+      }
+      if (!item || amount <= 0) {
+        alert("유효한 항목과 금액을 입력해주세요.");
+        return;
+      }
+
+      const updateExpense = {
+        id,
+        date,
+        item,
+        amount,
+        description,
+        userId: user.id,
+        nickname: user.nickname,
+        month: parseInt(date.split("-")[1], 10),
+      };
+
+      mutationupdate.mutate(updateExpense);
+    } else {
+      Swal.fire({
+        icon: "info",
+        title: "작성자만 수정할 수 있습니다.",
+      });
       return;
     }
-    if (!item || amount <= 0) {
-      alert("유효한 항목과 금액을 입력해주세요.");
-      return;
-    }
-
-    const updateExpense = {
-      id,
-      date,
-      item,
-      amount,
-      description,
-      userId: user.id,
-      nickname: user.nickname,
-      month: parseInt(date.split("-")[1], 10),
-    };
-
-    mutationupdate.mutate(updateExpense);
   };
 
   //TODO: crud d
   const handleDelete = () => {
-    try {
-      mutationremove.mutate(id);
-    } catch (error) {
-      console.error("handleDelete 함수 오류:", error);
+    const theUser = data.filter((item) => item.userId === user.id);
+    const thePost = theUser.filter((item) => item.id === id);
+
+    if (thePost && thePost.length > 0 && thePost[0].id === id) {
+      try {
+        mutationremove.mutate(id);
+      } catch (error) {
+        console.error("handleDelete 함수 오류:", error);
+      }
+    } else {
+      Swal.fire({
+        icon: "info",
+        title: "작성자만 삭제할 수 있습니다.",
+      });
+      return;
     }
   };
 
