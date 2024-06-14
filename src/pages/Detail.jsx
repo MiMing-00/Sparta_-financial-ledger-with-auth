@@ -7,7 +7,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { queryClient } from "../main";
 import { AuthContext } from "../context/AuthContext";
-import { setUser } from "../redux/slices/userSlice";
 
 const Container = styled.div`
   max-width: 800px;
