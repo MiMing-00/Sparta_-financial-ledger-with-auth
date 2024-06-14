@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Container, InputGroup, LoginDiv, Section } from "./Login";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -19,7 +19,6 @@ const Signup = () => {
     const signUpCheckPW = formData.get("signUpCheckPW");
     const signUpNickname = formData.get("signUpNickname");
 
-    // 유효성 검사 추가
     if (
       !signUpId.trim() ||
       !signUpPW.trim() ||
@@ -34,15 +33,11 @@ const Signup = () => {
       return;
     }
 
-    //아이디 네 글자 이상 열 글자 미만 (임시....)
     if (signUpId.length < 4 || signUpId.length > 10) {
       setIdCheck(false);
       return;
     }
 
-    //패스워드도 똑같이
-
-    //비밀번호 일치 확인
     if (signUpPW !== signUpCheckPW) {
       setPasswordsMatch(false);
       return;
@@ -51,7 +46,6 @@ const Signup = () => {
     event.target.reset();
     setPasswordsMatch(true);
 
-    //서버에 데이터 저장
     try {
       const response = await axios.post(
         "https://moneyfulpublicpolicy.co.kr/register",

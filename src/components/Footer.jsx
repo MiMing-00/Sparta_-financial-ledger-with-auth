@@ -25,7 +25,7 @@ const FooterSection = styled.section`
 const Footer = () => {
   return (
     <FooterSection>
-      <span>footer</span>
+      <span>(주)MiMic-00</span>
     </FooterSection>
   );
 };

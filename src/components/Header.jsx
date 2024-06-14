@@ -79,8 +79,6 @@ const Header = () => {
     }
   };
 
-  //유저 정보 담아서
-  //useEffect 마운트될 때  헤더에 정보 두 개 담고
   useEffect(() => {
     const getUserInfo = async () => {
       const token = localStorage.getItem("accessToken");

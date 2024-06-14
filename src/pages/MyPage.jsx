@@ -62,8 +62,6 @@ const MyPage = () => {
     return <div>loading...</div>;
   }
 
-  console.log(user);
-
   return (
     <Container>
       <Section>

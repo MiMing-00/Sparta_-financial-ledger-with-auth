@@ -67,7 +67,6 @@ export default function Detail() {
   const { id } = useParams();
   const { user } = useSelector((state) => state.user);
 
-  // 데이터 불러오기
   const getExpenses = async () => {
     const { data } = await jsonApi.get("/expensesData");
     return data;
@@ -87,9 +86,6 @@ export default function Detail() {
   }
 
   const selectedExpense = data.find((element) => element.id === id);
-
-  console.log(selectedExpense);
-
   const [date, setDate] = useState(selectedExpense.date);
   const [item, setItem] = useState(selectedExpense.item);
   const [amount, setAmount] = useState(selectedExpense.amount);
@@ -131,7 +127,6 @@ export default function Detail() {
   const theUser = data.filter((item) => item.userId === user.id);
   const thePost = theUser.filter((item) => item.id === id);
 
-  //TODO: curd u 해당 아이디랑 유효성 검사
   const handleEdit = async (id) => {
     const theUser = data.filter((item) => item.userId === user.id);
     const thePost = theUser.filter((item) => item.id === id);
@@ -168,7 +163,6 @@ export default function Detail() {
     }
   };
 
-  //TODO: crud d
   const handleDelete = () => {
     const theUser = data.filter((item) => item.userId === user.id);
     const thePost = theUser.filter((item) => item.id === id);
