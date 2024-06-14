@@ -111,6 +111,7 @@ export default function CreateExpense({ month }) {
       item: newItem,
       amount: parsedAmount,
       description: newDescription,
+      createdAt: Date.now(),
     };
 
     mutation.mutate(newExpense);

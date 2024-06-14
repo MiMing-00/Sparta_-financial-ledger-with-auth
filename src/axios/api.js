@@ -6,7 +6,9 @@ const jsonApi = axios.create({
 });
 
 export const getExpenses = async () => {
-  const { data } = await jsonApi.get("/expensesData");
+  const { data } = await jsonApi.get(
+    "/expensesData?_sort=createdAt&_order=desc"
+  );
   return data;
 };
 
@@ -16,7 +18,7 @@ export const postExpenses = async (newExpense) => {
 };
 
 export const editExpenses = async (updateExpense) => {
-  const { id, userId, nickname, ...rest } = updateExpense;
+  const { id, userId, nickname, createdAt, ...rest } = updateExpense;
   const { data } = await jsonApi.put(`/expensesData/${id}`, updateExpense);
   return data;
 };
@@ -30,9 +32,16 @@ export const deleteExpenses = async (id) => {
   }
 };
 
-jsonApi.interceptors.request.use((config) => {
-  return config;
-});
+jsonApi.interceptors.request.use(
+  async (config) => {
+    const { data } = await authApi.get("/user");
+    if (data.success) return config;
+    return Promise.reject(new Error("사용자 정보 조회에 실패 했습니다."));
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 jsonApi.interceptors.response.use(
   (response) => {
