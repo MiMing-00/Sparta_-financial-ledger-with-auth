@@ -1,5 +1,4 @@
 {
-  "users": [],
   "expensesData": [
     {
       "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
@@ -94,9 +93,9 @@
     {
       "id": "eebc",
       "date": "2024-01-01",
-      "item": "안 힘들군요",
-      "amount": 23,
-      "description": "1111",
+      "item": "식비",
+      "amount": 23000,
+      "description": "마라 엽떡 초보맛",
       "userId": "test-01",
       "nickname": "test-02",
       "month": 1
@@ -104,9 +103,9 @@
     {
       "id": "ab38",
       "date": "2024-03-01",
-      "item": "오잉",
+      "item": "간식",
       "amount": "150000",
-      "description": "ㅎㅎㅎㅎ",
+      "description": "간식 FLEX",
       "userId": "test-01",
       "nickname": "test-02",
       "month": 3
@@ -114,9 +113,9 @@
     {
       "id": "afea",
       "date": "2024-01-01",
-      "item": "하",
-      "amount": 123123,
-      "description": "되니",
+      "item": "식비",
+      "amount": 1230,
+      "description": "아이스크림",
       "userId": "test-01",
       "nickname": "test-02",
       "month": 1

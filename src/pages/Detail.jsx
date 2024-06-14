@@ -86,9 +86,9 @@ export default function Detail() {
     return <div>error!</div>;
   }
 
-  console.log(selectedExpense);
-
   const selectedExpense = data.find((element) => element.id === id);
+
+  console.log(selectedExpense);
 
   const [date, setDate] = useState(selectedExpense.date);
   const [item, setItem] = useState(selectedExpense.item);
