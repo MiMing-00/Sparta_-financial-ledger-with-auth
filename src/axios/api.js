@@ -30,17 +30,6 @@ export const deleteExpenses = async (id) => {
   }
 };
 
-jsonApi.interceptors.request.use(
-  async (config) => {
-    const { data } = await authApi.get("/user");
-    if (data.success) return config;
-    return Promise.reject(new Error("사용자 정보 조회에 실패 했습니다."));
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
 jsonApi.interceptors.response.use(
   (response) => {
     return response;
