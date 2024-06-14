@@ -128,6 +128,9 @@ export default function Detail() {
     },
   });
 
+  const theUser = data.filter((item) => item.userId === user.id);
+  const thePost = theUser.filter((item) => item.id === id);
+
   //TODO: curd u 해당 아이디랑 유효성 검사
   const handleEdit = async (id) => {
     const theUser = data.filter((item) => item.userId === user.id);
@@ -227,17 +230,25 @@ export default function Detail() {
           placeholder="지출 내용"
         />
       </InputGroup>
-      <ButtonGroup>
-        <Button type="button" onClick={() => handleEdit(id)}>
-          수정
-        </Button>
-        <Button type="button" $danger="true" onClick={() => handleDelete(id)}>
-          삭제
-        </Button>
-        <BackButton type="button" onClick={() => navigate(-1)}>
-          뒤로 가기
-        </BackButton>
-      </ButtonGroup>
+      {thePost && thePost.length > 0 && thePost[0].id === id ? (
+        <ButtonGroup>
+          <Button type="button" onClick={() => handleEdit(id)}>
+            수정
+          </Button>
+          <Button type="button" $danger="true" onClick={() => handleDelete(id)}>
+            삭제
+          </Button>
+          <BackButton type="button" onClick={() => navigate(-1)}>
+            뒤로 가기
+          </BackButton>
+        </ButtonGroup>
+      ) : (
+        <ButtonGroup>
+          <BackButton type="button" onClick={() => navigate(-1)}>
+            뒤로 가기
+          </BackButton>
+        </ButtonGroup>
+      )}
     </Container>
   );
 }
