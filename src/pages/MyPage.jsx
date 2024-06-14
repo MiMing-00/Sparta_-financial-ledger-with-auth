@@ -25,7 +25,9 @@ const MyPage = () => {
       });
       navigate("/login");
     } else {
-      dispatch(setUser(user));
+      if (user) {
+        dispatch(setUser(user));
+      }
     }
   }, [isAuthenticated, dispatch]);
 
