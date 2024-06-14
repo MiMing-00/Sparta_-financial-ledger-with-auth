@@ -102,8 +102,6 @@ const Header = () => {
     getUserInfo();
   }, [dispatch, token]);
 
-  console.log(user);
-
   return (
     <HeaderSection>
       <HeaderWrap>
