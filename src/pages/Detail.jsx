@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import jsonApi, { deleteExpenses, editExpenses } from "../axios/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { queryClient } from "../main";
+import { AuthContext } from "../context/AuthContext";
+import { setUser } from "../redux/slices/userSlice";
 
 const Container = styled.div`
   max-width: 800px;
@@ -63,9 +65,25 @@ const BackButton = styled(Button)`
 `;
 
 export default function Detail() {
+  const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: "로그인 후에 이용해주세요.",
+        text: "로그인 페이지로 이동합니다.",
+        icon: "warning",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+      }).then(() => {
+        navigate("/login");
+      });
+    }
+  }, [isAuthenticated]);
 
   const getExpenses = async () => {
     const { data } = await jsonApi.get("/expensesData");
@@ -124,8 +142,8 @@ export default function Detail() {
     },
   });
 
-  const theUser = data.filter((item) => item.userId === user.id);
-  const thePost = theUser.filter((item) => item.id === id);
+  const theUser = user ? data.filter((item) => item.userId === user.id) : [];
+  const thePost = theUser ? theUser.filter((item) => item.id === id) : [];
 
   const handleEdit = async (id) => {
     const theUser = data.filter((item) => item.userId === user.id);
