@@ -6,9 +6,7 @@ const jsonApi = axios.create({
 });
 
 export const getExpenses = async () => {
-  const { data } = await jsonApi.get(
-    "/expensesData?_sort=createdAt&_order=desc"
-  );
+  const { data } = await jsonApi.get("/expensesData");
   return data;
 };
 
