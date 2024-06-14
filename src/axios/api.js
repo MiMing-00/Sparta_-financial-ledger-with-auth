@@ -16,7 +16,7 @@ export const postExpenses = async (newExpense) => {
 };
 
 export const editExpenses = async (updateExpense) => {
-  const { id, userId, nickname, createdAt, ...rest } = updateExpense;
+  const { id, userId, nickname, ...rest } = updateExpense;
   const { data } = await jsonApi.put(`/expensesData/${id}`, updateExpense);
   return data;
 };
